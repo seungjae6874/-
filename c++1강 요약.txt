@@ -1,0 +1,151 @@
+c++ 1강
+
+auto라는 키워드로 변수를 잡으면 타입이 정해지는데
+이 변수에 첫번째로 값이 들어가지면 그 값의 타입으로 타입이 정해진다.
+ex) auto sportname = "Soccer"라고 하면 Soccer가 char형이므로
+auto sportname은 자동으로 char형 변수로 타입이 지정된다.
+ex) auto Number = 1;이면 자동으로 Number의 타입은 정수 int 형이다.
+
+*은 포인터형과 주소에 저장된 값
+&는 주소값자체
+
+auto& refUserMode = UserMode라 하면
+ex) refUserMode와 UserMode는 같은 것이다.
+
+NumberList = [1,2,3,4,5];
+for(auto i : NumberList)
+	std::cout<<i<<std::endl;
+라 하면 파이썬 처럼 NumberList안의 값들 차례로 반복문을 실행한다
+
+pair란?
+std::pair<int,int>foo;
+foo = std::make_pair(10,40);
+std::cout<<"foo:"<<foo.first<<","<<foo.second<<std::endl;
+라 하면 foo.first는 10, foo.second는 40이 출력된다.
+
+
+Template
+template <typename T> const T& my_max(const T&x, const T&y)
+#즉 template으로 T라는 타입의 my_max함수를 만든다는 의미 T가 int이면 int
+double이면 double타입의 함수를 만든다는 의미
+&라는 것은 '변수의 다른이름을 지정!한다는 의미'
+
+Iterator 반복자
+컨테이너 : 배열 처럼 데이터들이 쭉 들어있는것
+
+begin(), end() 말그래도 begin은 첫번째 원소, 
+
+end()는 끝 다음위치를 가리킨다. 끝 다음인 이유는 i != a.end()라 할때
+마지막 원소가 빠지지 않게 하기 위해 end()는 끝 다음 위치를 나타낸다.
+
+std::list<int> A; A리스트를 만들고
+std::list<int>::iterator it; it이라는 리스트 컨테이너에 대한 반복자를 생성
+A.push_back(1), A.push_back(2), A.push_back(3);
+A리스트에 1,2,3,을 차례로 넣는다.
+for(it = A.begin(); it != A.end(); it++){
+	std::cout<<*it<<std::endl; # *를 it에 붙이는 이유는 it이
+포인터 반복자인 iterator라서
+선언은 std::list<int> iterator it;으로 선언해서 int형 리스트를 도는 반복자it을 선언
+}#1,2,3이 순서대로 나옴
+it = A.endl(); it--; #it을 다시 A의 마지막 원소 위치로 it 포인터를 위치시킴
+
+while(it != A.begin()){
+	std::cout<<it<<std::endl; #3,2만 출력
+	it--;
+}
+#이러면 it은 3,2 가 되고 1이 되면 A.begin()과 같아지므로 while문 탈출
+std::cout<<*it<<std::endl;
+#1이라는 값이 it에 나오게 된다.
+
+
+using namespace std;를 선언하지 않고 시작하면
+모든 입출력에 std::cout, std::cin을 붙여야 한다.
+
+위의 std::list<int>iterator it;을 선언하고 반복문을 돌린 것을
+
+for(auto a: A)
+	std::cout<<a<<endl;
+return 0; 로써 반복자를 쉽게 사용 가능
+
+vector : 배열과 비슷한데 배열보다는 편한것 
+ 10개로 크기를 잡아도 뒤에 더 11번쨰 원소를 넣으면 알아서 크기가 늘어나는 장점.
+
+std::vector<int> v;
+std::vector<int> iterator r, s; vector의 반복자 포인터 r과 s
+v.push_back(1), v.push_back(2), v.push_back(3)
+r= v.begin()이고 s는 v.end()라고 선언
+*r, *(r+2), *(--s), (r>s)를 각각 출력해보면
+r = 1, *(r+2)는 3이되고 *(--s)는 3이된다 end가 벡터 마지막원소의 뒤 위치이므로
+r>s는 r이 s보다 앞의 vector 원소를 가리키는 포인터이므로 거짓
+false가 반환된다.
+vector에서는 v.size()로서 처음부터 끝까지의 원소를 지원해준다.
+for(i =0; i < v.size(); i++){
+ std::cout<<v[i]<<std::endl;
+} 로써 vector를 배열처럼 사용도 가능하다
+for(i = v.begin(); i !=v.end(); i++){
+	std::cout<<i<<std::endl;
+} 두 반복문은 같은 값들을 출력한다.
+
+
+c++ stl의 lower_bound는 123 444 56에서 반복되는 첫번째 4를 나타내고
+ upper_bound는 마지막 4뒤에 나오는 첫번째 5를 가리킨다.
+
+작년 출제 :  next_permutation과 prev_permutation은
+******************우선적으로 #include <algorithm>을 선언해야함
+next또는 prev_permutation(배열이름, 배열이름+크기)
+int A[] = {1,2,3}의 배열 생성
+# 오름차순으로 순열 생성
+do{
+	for(int i = 0; i < 3; i++){
+		std::cout;
+	}
+}while(next_permutation(A,A+3));
+
+#내림차순
+do{
+	for(int i =2; i >= 0; i--)
+	{
+		A[i] = 3-i;
+	}
+}while(prev_permutation(A,A+3));
+
+
+
+2강~~~~~~~~~~~~~~~~~~~~~~~~~~~
+시퀀스 container라는 것은 같은 타입의 데이터들이 순서대로 나열, 접근 가능
+associative 컨테이너는 값을 가지고 어떤 값이 있다/없다라는 것을 찾는 것
+
+
+Set이라는 집합함수
+#include <set> 선언
+set<char> S, set<char>::iterator it; S라는 set의 집합을 선언하고, set타입의 반복자 it선언
+
+const Student &s는 Student와 같은 reference를 s가 갖도록 한다라고 선언하는 것.
+
+Map 함수
+map<Student,string> mp;
+map<Student,string>::iterator it;
+Student e; Student 타입의 변수 e 생성
+e.h = 1,e.w =2, mp[e] = 'A' 이런식으로 복사를 통해 저장한다.
+
+lower_bound를 쓰자면
+low = lower_bound(v.begin(),v.end(),4)라고 한다면 
+4보다 같거나 작은것의 포인터 위치를 나타낸다.
+즉 123444410 11 15라면 lower_bound는 4보다 같거나 작은것
+즉 1,2,3,4 총 4개가 된다.
+upper_bound(v.begin(),v.end(),4)라고 한다면
+4보다 큰 것의 첫번째 위치를 나타낸다. 1,2,3,4,4,4,4니까 8번쨰 위치 포인터를 나타냄.
+
+**************next_permutation(A,A+길이) , prev_permutation은 점점 작아지는 순열을 생성
+조건은 #include <algorithm>
+do{
+ for(int i = 0 ; i < A.length(); i++)
+	{ std::endl;}
+}while(next_permutation(A,A+3));
+
+배열의 모든 순열을 생성하려면 
+1. 배열을 정렬한다. sort(배열, 배열 크기)
+2. 오름차순으로 정렬했다면 -> next_permutation(배열, 배열길이)를 dowhile로 짜기
+3 내림차순으로 정렬했다면 -> prev_permutation(배열, 배열길이)를 dowhile문으로
+짜기
+
